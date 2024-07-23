@@ -1,6 +1,6 @@
 import express from "express"
 import multer from "multer"
-import { register } from "../controller/auth.controller.js"
+import { login, register } from "../controller/auth.controller.js"
 
 const router = express.Router()
 
@@ -17,5 +17,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage })
 
 router.post("/register", upload.single("profileImage"), register)
+router.post("/login", login)
 
 export default router
