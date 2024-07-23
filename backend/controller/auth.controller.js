@@ -1,6 +1,7 @@
 import User from "../models/user.model.js"
 import bcryptjs from "bcryptjs"
 import jwt from "jsonwebtoken"
+import { errorHandler } from "../utils/error.js"
 
 export const register = async (req, res, next) => {
   try {
@@ -17,7 +18,7 @@ export const register = async (req, res, next) => {
     const existingUser = await User.findOne({ email })
 
     if (existingUser) {
-      return res.status(409).json({ message: "User already exist." })
+      return next(errorHandler(409, "User already exist!"))
     }
 
     const hashedPassword = bcryptjs.hashSync(password, 10)
@@ -36,24 +37,24 @@ export const register = async (req, res, next) => {
       .status(201)
       .json({ message: "User created successfully", user: newUser })
   } catch (error) {
-    console.log(error)
+    next(error)
   }
 }
 
-export const login = async (req, res) => {
+export const login = async (req, res, next) => {
   try {
     const { email, password } = req.body
 
     const validUser = await User.findOne({ email })
 
     if (!validUser) {
-      return res.status(409).json({ message: "User doesn't exist!" })
+      return next(errorHandler(404, "User not  found!"))
     }
 
     const validPassword = bcryptjs.compareSync(password, validUser.password)
 
     if (!validPassword) {
-      return res.status(400).json({ message: "Wrong credentials!" })
+      return next(errorHandler(400, "Wrong Credentials"))
     }
 
     const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET)
@@ -62,7 +63,6 @@ export const login = async (req, res) => {
 
     res.status(200).json({ token, rest })
   } catch (error) {
-    console.log(error)
-    res.status(500).json({ error: error.message })
+    next(error)
   }
 }
