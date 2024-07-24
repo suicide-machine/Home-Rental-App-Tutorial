@@ -11,7 +11,7 @@ const Navbar = () => {
   const [dropdownMenu, setDropdownMenu] = useState(false)
 
   return (
-    <div className="py-[10px] px-[60px] sm:py-[10px] sm:px-5 flex justify-between items-center relative max-w-6xl mx-auto">
+    <div className="py-[10px] sm:py-[10px] px-[20px] sm:px-[60px] flex justify-between items-center relative ">
       <Link to={"/"}>
         <h1 className="text-slate-500 text-3xl font-bold">
           Rent
@@ -33,14 +33,14 @@ const Navbar = () => {
         {user ? (
           <Link
             to={"/create-listing"}
-            className="no-underline text-slate-500 font-bold cursor-pointer hover:text-blue-500"
+            className="hidden sm:block no-underline text-slate-500 font-bold cursor-pointer hover:text-blue-500"
           >
             Become A Host
           </Link>
         ) : (
           <Link
             to={"/login"}
-            className="no-underline text-slate-500 font-bold cursor-pointer hover:text-blue-500"
+            className="hidden sm:block no-underline text-slate-500 font-bold cursor-pointer hover:text-blue-500"
           >
             Become A Host
           </Link>
