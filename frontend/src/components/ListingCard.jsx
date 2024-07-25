@@ -39,7 +39,7 @@ const ListingCard = ({
 
   return (
     <div
-      className="relative cursor-pointer p-2.5 rounded-lg hover:shadow-lg"
+      className="relative cursor-pointer p-2.5 rounded-lg hover:shadow-lg w-72"
       onClick={() => {
         navigate(`/listings/${listingId}`)
       }}
@@ -84,7 +84,7 @@ const ListingCard = ({
         </div>
       </div>
 
-      <h3 className="text-xl font-bold text-slate-700">
+      <h3 className="text-xl font-bold text-slate-700 ">
         {city}, {state}, {country}
       </h3>
 
