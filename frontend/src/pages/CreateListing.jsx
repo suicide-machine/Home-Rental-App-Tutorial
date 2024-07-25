@@ -5,6 +5,8 @@ import { MdAddCircleOutline, MdRemoveCircleOutline } from "react-icons/md"
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd"
 import { IoIosImages } from "react-icons/io"
 import { BiTrash } from "react-icons/bi"
+import { useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
 
 const CreateListing = () => {
   const [category, setCategory] = useState("")
@@ -87,6 +89,51 @@ const CreateListing = () => {
     })
   }
 
+  const creatorId = useSelector((state) => state?.user?.user?._id)
+
+  const navigate = useNavigate()
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    try {
+      const listingForm = new FormData()
+
+      listingForm.append("creator", creatorId)
+      listingForm.append("category", category)
+      listingForm.append("type", type)
+      listingForm.append("streetAddress", formLocation.streetAddress)
+      listingForm.append("aptSuite", formLocation.aptSuite)
+      listingForm.append("city", formLocation.city)
+      listingForm.append("state", formLocation.state)
+      listingForm.append("country", formLocation.country)
+      listingForm.append("guestCount", guestCount)
+      listingForm.append("bedroomCount", bedroomCount)
+      listingForm.append("bedCount", bedCount)
+      listingForm.append("bathroomCount", bathroomCount)
+      listingForm.append("amenities", amenities)
+      listingForm.append("title", formDescription.title)
+      listingForm.append("description", formDescription.description)
+      listingForm.append("price", formDescription.price)
+
+      photos.forEach((photo) => {
+        listingForm.append("listingPhotos", photo)
+      })
+
+      const res = await fetch("http://localhost:3000/api/listing/create", {
+        method: "POST",
+        body: listingForm,
+      })
+
+      if (res.ok) {
+        console.log("Data created successfully")
+        navigate("/")
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <>
       <Navbar />
@@ -96,7 +143,7 @@ const CreateListing = () => {
           Create Your Listings
         </h1>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="bg-white p-8 rounded-xl mt-10">
             <h2 className="text-slate-700 text-xl font-bold">
               Step 1: Title of the place
