@@ -75,3 +75,15 @@ export const getListings = async (req, res, next) => {
     next(error)
   }
 }
+
+export const getListingDetails = async (req, res, next) => {
+  try {
+    const { listingId } = req.params
+
+    const listing = await Listing.findById(listingId).populate("creator")
+
+    res.status(200).json(listing)
+  } catch (error) {
+    next(error)
+  }
+}
