@@ -1,6 +1,6 @@
 import express from "express"
 import multer from "multer"
-import { createListing } from "../controller/listing.controller.js"
+import { createListing, getListings } from "../controller/listing.controller.js"
 
 // multer configuration
 const storage = multer.diskStorage({
@@ -17,5 +17,6 @@ const upload = multer({ storage })
 const router = express.Router()
 
 router.post("/create", upload.array("listingPhotos"), createListing)
+router.get("/", getListings)
 
 export default router

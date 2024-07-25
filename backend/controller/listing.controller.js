@@ -57,3 +57,21 @@ export const createListing = async (req, res, next) => {
     next(error)
   }
 }
+
+export const getListings = async (req, res, next) => {
+  const qCategory = req.query.category
+
+  try {
+    let listings
+
+    if (qCategory) {
+      listings = await Listing.find({ category: qCategory }).populate("creator")
+    } else {
+      listings = await Listing.find().populate("creator")
+    }
+
+    res.status(200).json(listings)
+  } catch (error) {
+    next(error)
+  }
+}
