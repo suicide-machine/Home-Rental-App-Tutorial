@@ -13,6 +13,9 @@ const ListingCard = ({
   type,
   price,
   booking,
+  startDate,
+  endDate,
+  totalPrice,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0)
 
@@ -87,11 +90,29 @@ const ListingCard = ({
 
       <p className="text-base text-slate-700">{category}</p>
 
-      <p className="text-base text-slate-700">{type}</p>
+      {!booking ? (
+        <>
+          <p className="text-base text-slate-700">{type}</p>
 
-      <p className="text-base text-slate-700">
-        <span className="font-bold text-lg text-slate-700">₹{price}</span>
-      </p>
+          <p className="text-base text-slate-700">
+            <span className="font-bold text-lg text-slate-700">₹{price}</span>{" "}
+            per night
+          </p>
+        </>
+      ) : (
+        <>
+          <p className="text-base text-slate-700">
+            {startDate} - {endDate}
+          </p>
+
+          <p className="text-base text-slate-700">
+            <span className="font-bold text-lg text-slate-700">
+              ₹{totalPrice}
+            </span>{" "}
+            total
+          </p>
+        </>
+      )}
     </div>
   )
 }

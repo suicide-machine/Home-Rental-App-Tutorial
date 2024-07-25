@@ -5,6 +5,7 @@ import RegisterPage from "./pages/RegisterPage"
 import LoginPage from "./pages/LoginPage"
 import CreateListing from "./pages/CreateListing"
 import ListingDetails from "./pages/ListingDetails"
+import TripList from "./pages/TripList"
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/create-listing" element={<CreateListing />} />
         <Route path="/listings/:listingId" element={<ListingDetails />} />
+        <Route path="/:userId/trips" element={<TripList />} />
       </Routes>
     </BrowserRouter>
   )
