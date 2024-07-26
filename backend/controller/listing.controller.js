@@ -87,3 +87,26 @@ export const getListingDetails = async (req, res, next) => {
     next(error)
   }
 }
+
+export const getListingsBySearch = async (req, res, next) => {
+  const { search } = req.params
+
+  try {
+    let listings = []
+
+    if (search === "all") {
+      listings = await Listing.find().populate("creator")
+    } else {
+      listings = await Listing.find({
+        $or: [
+          { category: { $regex: search, $options: "i" } },
+          { title: { $regex: search, $options: "i" } },
+        ],
+      }).populate("creator")
+    }
+
+    res.status(200).json(listings)
+  } catch (error) {
+    next(error)
+  }
+}

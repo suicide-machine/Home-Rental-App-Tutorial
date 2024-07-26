@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { FaSearch, FaUser } from "react-icons/fa"
 import { useDispatch, useSelector } from "react-redux"
 import { IoMdMenu } from "react-icons/io"
@@ -13,6 +13,10 @@ const Navbar = () => {
 
   const dispatch = useDispatch()
 
+  const [search, setSearch] = useState("")
+
+  const navigate = useNavigate()
+
   return (
     <div className="py-[10px] sm:py-[10px] px-[20px] sm:px-[60px] flex justify-between items-center relative ">
       <Link to={"/"}>
@@ -22,14 +26,21 @@ const Navbar = () => {
         </h1>
       </Link>
 
-      <div className="hidden lg:flex border border-gray-500 rounded-[30px] h-[50px] px-5 gap-10 items-center">
+      <div className="flex border border-gray-500 rounded-[30px] h-[50px] px-5 gap-10 items-center">
         <input
           type="text"
           placeholder="Search..."
           className="focus:outline-none bg-transparent"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
         />
 
-        <FaSearch className="text-slate-600 w-6 h-6" />
+        <button
+          disabled={search.trim() === ""}
+          onClick={() => navigate(`/listings/search/${search}`)}
+        >
+          <FaSearch className="text-slate-600 w-6 h-6" />
+        </button>
       </div>
 
       <div className="flex items-center gap-5">

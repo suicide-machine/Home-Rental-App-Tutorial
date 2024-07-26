@@ -4,6 +4,7 @@ import {
   createListing,
   getListingDetails,
   getListings,
+  getListingsBySearch,
 } from "../controller/listing.controller.js"
 
 // multer configuration
@@ -25,5 +26,7 @@ router.post("/create", upload.array("listingPhotos"), createListing)
 router.get("/", getListings)
 
 router.get("/:listingId", getListingDetails)
+
+router.get("/search/:search", getListingsBySearch)
 
 export default router
