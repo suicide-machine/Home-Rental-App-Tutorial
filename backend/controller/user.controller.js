@@ -66,3 +66,17 @@ export const addListingToWishList = async (req, res, next) => {
     next(error)
   }
 }
+
+export const getPropertyList = async (req, res, next) => {
+  try {
+    const { userId } = req.params
+
+    const properties = await Listing.find({ creator: userId }).populate(
+      "creator"
+    )
+
+    res.status(200).json(properties)
+  } catch (error) {
+    next(error)
+  }
+}
