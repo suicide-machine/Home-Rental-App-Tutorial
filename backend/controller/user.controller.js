@@ -80,3 +80,17 @@ export const getPropertyList = async (req, res, next) => {
     next(error)
   }
 }
+
+export const getReservationList = async (req, res, next) => {
+  try {
+    const { userId } = req.params
+
+    const reservations = await Booking.find({ hostId: userId }).populate(
+      "customerId hostId listingId"
+    )
+
+    res.status(200).json(reservations)
+  } catch (error) {
+    next(error)
+  }
+}
