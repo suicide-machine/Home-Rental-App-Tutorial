@@ -1,6 +1,8 @@
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa"
+import { FaArrowLeft, FaArrowRight, FaHeart } from "react-icons/fa"
+import { useDispatch, useSelector } from "react-redux"
+import { setWishList } from "../redux/slice/userSlice"
 
 const ListingCard = ({
   listingId,
@@ -35,6 +37,35 @@ const ListingCard = ({
 
   const goToNextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % listingPhotoPaths.length)
+  }
+
+  // wishlist
+  const user = useSelector((state) => state?.user?.user)
+
+  const wishList = user?.wishList || []
+
+  const isAddToWishList = wishList?.find((item) => item?._id === listingId)
+
+  const dispatch = useDispatch()
+
+  const patchWishList = async () => {
+    if (user?._id !== creator._id) {
+      const response = await fetch(
+        `http://localhost:3000/api/user/${user?._id}/${listingId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+
+      const data = await response.json()
+
+      dispatch(setWishList(data.wishList))
+    } else {
+      return
+    }
   }
 
   return (
@@ -113,6 +144,19 @@ const ListingCard = ({
           </p>
         </>
       )}
+
+      <button
+        className={`absolute right-5 top-5 border-none text-2xl cursor-pointer z-[999] bg-none ${
+          isAddToWishList ? "text-red-500" : "text-white"
+        }`}
+        onClick={(e) => {
+          e.stopPropagation()
+          patchWishList()
+        }}
+        disabled={!user}
+      >
+        <FaHeart />
+      </button>
     </div>
   )
 }

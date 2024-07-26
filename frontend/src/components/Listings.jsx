@@ -24,7 +24,11 @@ const Listings = () => {
         }
       )
 
+      // console.log(res)
+
       const data = await res.json()
+
+      // console.log(data)
 
       dispatch(setListings({ listings: data }))
     } catch (error) {
@@ -33,7 +37,9 @@ const Listings = () => {
   }
 
   useEffect(() => {
+    // console.log("I am running")
     getListings()
+    // console.log("I am running")
   }, [selectedCategory])
 
   return (
@@ -65,33 +71,34 @@ const Listings = () => {
       </div>
 
       <div className="px-12 pb-32 lg:px-5 flex flex-wrap justify-center gap-5">
-        {listings.map(
-          ({
-            _id,
-            creator,
-            listingPhotoPaths,
-            city,
-            state,
-            country,
-            category,
-            type,
-            price,
-            booking = false,
-          }) => (
-            <ListingCard
-              listingId={_id}
-              creator={creator}
-              listingPhotoPaths={listingPhotoPaths}
-              city={city}
-              state={state}
-              country={country}
-              category={category}
-              type={type}
-              price={price}
-              booking={booking}
-            />
-          )
-        )}
+        {listings.length > 0 &&
+          listings.map(
+            ({
+              _id,
+              creator,
+              listingPhotoPaths,
+              city,
+              state,
+              country,
+              category,
+              type,
+              price,
+              booking = false,
+            }) => (
+              <ListingCard
+                listingId={_id}
+                creator={creator}
+                listingPhotoPaths={listingPhotoPaths}
+                city={city}
+                state={state}
+                country={country}
+                category={category}
+                type={type}
+                price={price}
+                booking={booking}
+              />
+            )
+          )}
       </div>
     </>
   )
