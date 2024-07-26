@@ -52,13 +52,13 @@ const TripList = () => {
             booking = true,
           }) => (
             <ListingCard
-              listingId={listingId._id}
-              creator={hostId._id}
-              listingPhotoPaths={listingId.listingPhotoPaths}
-              city={listingId.city}
-              state={listingId.state}
-              country={listingId.country}
-              category={listingId.category}
+              listingId={listingId?._id}
+              creator={hostId?._id}
+              listingPhotoPaths={listingId?.listingPhotoPaths}
+              city={listingId?.city}
+              state={listingId?.state}
+              country={listingId?.country}
+              category={listingId?.category}
               startDate={startDate}
               endDate={endDate}
               totalPrice={totalPrice}
